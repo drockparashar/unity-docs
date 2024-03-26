@@ -1,0 +1,3 @@
+Added editable area
+added toggling codeblock feature
+added toggle bold feature
