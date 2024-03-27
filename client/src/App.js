@@ -3,6 +3,7 @@ import './App.css';
 import Signup from "./pages/Signup";
 import {BrowserRouter,Routes,Route} from "react-router-dom";
 import  Editor  from "./pages/Editor";
+// import NewEditor from "./pages/NewEditor";
 
 function App() {
   return (
