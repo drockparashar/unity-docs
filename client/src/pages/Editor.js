@@ -17,7 +17,9 @@ const renderElement = (props) => {
     case "quote":
       return <QuoteElement {...props} />;
     case "bullet":
-      return <BulletElement {...props} />
+      return <BulletElement {...props} />;
+    case "list":
+      return <ListElement {...props} />;
     default:
       return <DefaultElement {...props} />;
   }
@@ -35,7 +37,7 @@ const Editors = () => {
       <div className="hero">
         <div className="toolbar">
           <button className="tool">
-            <img src="../assets/bold.svg" alt="bold" />
+            <img src="../../src/assets/bold.svg" alt="bold" />
           </button>
           <button className="tool">I</button>
           <button className="tool">U</button>
@@ -48,9 +50,9 @@ const Editors = () => {
             <option>Font 3</option>
           </select>
           <button className="tool">
-            <img src="../assets/quote.svg" alt="quote" />
+            <img src="client/frontned/public/logo192.png" alt="quote" />
           </button>
-          <button className="tool">
+          <button className="tool"> 
             <img src="../assets/bullet.svg" alt="bullet" />
           </button>
           <button className="tool">
@@ -78,8 +80,8 @@ const Editors = () => {
                 if (!e.ctrlKey) {
                   return;
                 }
-                 // Get the currently selected node
-                 const [node] = Editor.nodes(editor, {
+                // Get the currently selected node
+                const [node] = Editor.nodes(editor, {
                   match: (n) =>
                     Element.isElement(n) && Editor.isBlock(editor, n),
                 });
@@ -118,13 +120,18 @@ const Editors = () => {
                     });
                     break;
 
-                    case "u":
-                      e.preventDefault();
-                      Transforms.setNodes(editor, {
-                        type: match ? "bullet" : "paragraph",
-                      });
-                      break;
-                    
+                  case "u":
+                    e.preventDefault();
+                    Transforms.setNodes(editor, {
+                      type: match ? "bullet" : "paragraph",
+                    });
+                    break;
+                  case "l":
+                    e.preventDefault();
+                    Transforms.setNodes(editor, {
+                      type: match ? "list" : "paragraph",
+                    });
+                    break;
 
                   default:
                     break;
@@ -148,17 +155,22 @@ const CodeElement = (props) => {
 
 const QuoteElement = (props) => {
   return (
-    <span {...props.attributes} style={{ fontStyle: 'italic' }}>
+    <span {...props.attributes} style={{ fontStyle: "italic" }}>
       "{props.children}"
     </span>
   );
 };
 
 const BulletElement = (props) => {
+  return <li {...props.attributes}>{props.children}</li>;
+};
+
+
+const ListElement = (props) => {
   return (
-    <li {...props.attributes}>
-      {props.children}
-    </li>
+    <ol>
+      <li {...props.attributes}>{props.children}</li>
+    </ol>
   );
 };
 
@@ -176,7 +188,6 @@ const Leaf = (props) => {
         fontStyle: props.leaf.italic ? "italic" : "normal",
         textDecorationLine: props.leaf.strikethrough ? "line-through" : "none",
       }}
-      
     >
       {props.leaf.quote ? `"${props.children}"` : props.children}
     </span>
