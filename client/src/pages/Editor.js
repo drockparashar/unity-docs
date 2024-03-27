@@ -3,6 +3,18 @@ import { createEditor, Transforms, Element, Editor } from "slate"; // Import Edi
 import { Slate, Editable, withReact } from "slate-react";
 import "../styles/editor.css";
 
+import code from "../assets/code.svg";
+import bold from "../assets/bold.svg";
+import italic from "../assets/italic.svg";
+import strikethrough from "../assets/strikethrough.svg";
+import quote from "../assets/quote.svg";
+import bullet from "../assets/bullet.svg";
+import list from "../assets/list.svg";
+import alignleft from "../assets/align-left.svg";
+import alignright from "../assets/align-right.svg";
+import aligncenter from "../assets/align-center.svg";
+import alignjustify from "../assets/align-justify.svg";
+
 const initialValue = [
   {
     type: "paragraph",
@@ -37,12 +49,16 @@ const Editors = () => {
       <div className="hero">
         <div className="toolbar">
           <button className="tool">
-            <img src="../../src/assets/bold.svg" alt="bold" />
+          <img src={bold}  alt="bold"/>
           </button>
-          <button className="tool">I</button>
-          <button className="tool">U</button>
           <button className="tool">
-            <img src="../assets/code.svg" alt="code" />
+          <img src={italic}  alt="italic"/>
+          </button>
+          <button className="tool">
+          <img src={strikethrough}  alt="strikethrough"/>
+          </button>
+          <button className="tool">
+          <img src={code}  alt="code"/>
           </button>
           <select className="tool">
             <option>Font 1</option>
@@ -50,25 +66,25 @@ const Editors = () => {
             <option>Font 3</option>
           </select>
           <button className="tool">
-            <img src="client/frontned/public/logo192.png" alt="quote" />
+          <img src={quote}  alt="quote"/>
           </button>
           <button className="tool"> 
-            <img src="../assets/bullet.svg" alt="bullet" />
+            <img src={bullet}  alt="bullet"/>
           </button>
           <button className="tool">
-            <img src="../assets/list.svg" alt="list" />
+          <img src={list}  alt="list"/>
           </button>
           <button className="tool">
-            <img src="../assets/align-left.svg" alt="align-left" />
+          <img src={alignleft}  alt="align-left"/>
           </button>
           <button className="tool">
-            <img src="../assets/align-center.svg" alt="align-center" />
+          <img src={aligncenter}  alt="align-center"/>
           </button>
           <button className="tool">
-            <img src="../assets/align-right.svg" alt="align-right" />
+          <img src={alignright}  alt="align-right"/>
           </button>
           <button className="tool">
-            <img src="../assets/align-justify.svg" alt="align-justify" />
+          <img src={alignjustify}  alt="align-justify"/>
           </button>
         </div>
         <div className="slate">

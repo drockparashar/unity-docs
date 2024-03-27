@@ -31,3 +31,12 @@
     cursor: pointer;
   }
   
+  img{
+    width: 10px;
+    height: 10px;
+  }
+
+  button{
+    height: 30px;
+    width: 30px;
+  }
