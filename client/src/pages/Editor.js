@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback ,useMemo} from "react";
 import { createEditor, Transforms, Element, Editor } from "slate"; // Import Editor and Element from Slate
 import { Slate, Editable, withReact } from "slate-react";
+import {io} from "socket.io-client"
 import "../styles/editor.css";
 
 import code from "../assets/code.svg";
@@ -15,12 +16,7 @@ import alignright from "../assets/align-right.svg";
 import aligncenter from "../assets/align-center.svg";
 import alignjustify from "../assets/align-justify.svg";
 
-const initialValue = [
-  {
-    type: "paragraph",
-    children: [{ text: "A line of text in a paragraph." }],
-  },
-];
+const socket = io("http://localhost:3001");
 
 const renderElement = (props) => {
   switch (props.element.type) {
@@ -38,6 +34,18 @@ const renderElement = (props) => {
 };
 
 const Editors = () => {
+
+  const initialValue = useMemo(
+    () =>
+      JSON.parse(localStorage.getItem('content')) || [
+        {
+          type: 'paragraph',
+          children: [{ text: 'A line of text in a paragraph.' }],
+        },
+      ],
+    []
+  )
+
   const [editor] = useState(() => withReact(createEditor()));
 
   const renderLeaf = useCallback((props) => {
@@ -50,29 +58,22 @@ const Editors = () => {
 
   const handleChange = (format) => () => {
     const isActive = isBlockActive(editor, format);
-    
+
     Transforms.setNodes(
       editor,
-      { type: isActive ? 'paragraph' : format },
+      { type: isActive ? "paragraph" : format },
       { match: (n) => Editor.isBlock(editor, n) }
     );
     console.log("Editor nodes:", Array.from(Editor.nodes(editor)));
   };
-  
-  
-  
+
   const isBlockActive = (editor, format) => {
     const [match] = Editor.nodes(editor, {
       match: (n) => n.type === format,
     });
-  
+
     return !!match;
   };
-  
-  
-  
-  
-  
 
   return (
     <div className="parent">
@@ -85,7 +86,7 @@ const Editors = () => {
             <img src={italic} alt="italic" />
           </button>
           <button className="tool" onClick={handleClick("strikethrough")}>
-            <img src={strikethrough} alt="strikethrough"  />
+            <img src={strikethrough} alt="strikethrough" />
           </button>
           <button className="tool" onClick={handleChange("code")}>
             <img src={code} alt="code" />
@@ -113,7 +114,20 @@ const Editors = () => {
           </button>
         </div>
         <div className="slate">
-          <Slate editor={editor} initialValue={initialValue}>
+          <Slate
+            editor={editor}
+            initialValue={initialValue}
+            onChange={(value) => {
+              const isAstChange = editor.operations.some(
+                (op) => "set_selection" !== op.type
+              );
+              if (isAstChange) {
+                // Save the value to Local Storage.
+                const content = JSON.stringify(value);
+                localStorage.setItem("content", content);
+              }
+            }}
+          >
             <Editable
               renderElement={renderElement}
               renderLeaf={renderLeaf}
