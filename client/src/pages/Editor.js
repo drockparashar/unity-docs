@@ -1,8 +1,9 @@
-import React, { useState, useCallback ,useMemo} from "react";
+import React, { useState, useCallback ,useEffect} from "react";
 import { createEditor, Transforms, Element, Editor } from "slate"; // Import Editor and Element from Slate
 import { Slate, Editable, withReact } from "slate-react";
 import {io} from "socket.io-client"
 import "../styles/editor.css";
+// import axios from "axios";
 
 import code from "../assets/code.svg";
 import bold from "../assets/bold.svg";
@@ -35,16 +36,27 @@ const renderElement = (props) => {
 
 const Editors = () => {
 
-  const initialValue = useMemo(
-    () =>
-      JSON.parse(localStorage.getItem('content')) || [
-        {
-          type: 'paragraph',
-          children: [{ text: 'A line of text in a paragraph.' }],
-        },
-      ],
-    []
-  )
+  const [initialValue, setInitialValue] = useState([
+    {
+      type: 'paragraph',
+      children: [{ text: 'A line of text in a paragraph.' }],
+    },
+  ]);
+
+  useEffect(()=>{
+    socket.emit("get",{_id:"660608b58f0a2357825a8073"})
+  },[])
+
+  socket.on("get",(content)=>{
+    console.log(content)
+    setInitialValue([
+      {
+        type: 'paragraph',
+        children: [{ text: content }],
+      },
+    ]);
+  });
+
 
   const [editor] = useState(() => withReact(createEditor()));
 
@@ -74,6 +86,17 @@ const Editors = () => {
 
     return !!match;
   };
+
+
+  useEffect(() => {
+    socket.on("update", ({ content }) => {
+      // Update the value in the Slate editor
+      editor.children = [{
+        type: 'paragraph',
+        children: [{ text: content }],
+      }];
+    });
+  }, [editor]);
 
   return (
     <div className="parent">
@@ -124,7 +147,10 @@ const Editors = () => {
               if (isAstChange) {
                 // Save the value to Local Storage.
                 const content = JSON.stringify(value);
-                localStorage.setItem("content", content);
+                const parsedData = JSON.parse(content);
+                const extractedString = parsedData[0].children[0].text;
+                socket.emit("update",{content:extractedString,_id:"660608b58f0a2357825a8073"})
+                // console.log("updated and sent to backend");
               }
             }}
           >

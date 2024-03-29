@@ -5,8 +5,16 @@ import { userRouter } from "./src/routes/auth.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { docRouter } from "./src/routes/docs.js";
+import handleDocumentUpdate from "./src/controllers/handleDocumentUpdate.js";
+import getDocumentContent from "./src/controllers/getDocumentContent.js";
 
 const app = express();
+app.use(express.json());
+app.use(cors());
+
+app.use("/auth", userRouter);
+app.use("/doc",docRouter);
+
 
 const httpServer = new createServer(app);
 
@@ -19,13 +27,26 @@ const io = new Server(httpServer, {
 
 io.on("connection", (socket) => {
   console.log("Socket Server");
+  socket.on("update", async (msg) => {
+    try {
+      const response = await handleDocumentUpdate(msg);
+      console.log(response.updatedDoc.content);
+      socket.emit("update", response.updatedDoc.content);
+    } catch (err) {
+      socket.emit("update error", err.message);
+    }
+  });
+
+  socket.on("get",async(_id)=>{
+    try{
+      const response=await getDocumentContent(_id);
+      console.log(response.doc.content);
+      socket.emit("get",response.doc.content)
+    }catch(err){
+      console.log(err);
+    }
+  });
 });
-
-app.use(express.json());
-app.use(cors());
-
-app.use("/auth", userRouter);
-app.use("/doc",docRouter);
 
 mongoose
   .connect(
