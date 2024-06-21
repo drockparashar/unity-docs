@@ -9,7 +9,7 @@ router.post("/create", async (req, res) => {
     const newDoc = new DocModel({ title, author });
     await newDoc.save();
 
-    res.status(201).json({ message: "Document Created" });
+    res.json(newDoc._id);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -37,5 +37,12 @@ router.put("/update", async (req, res) => {
       .json({ message: "Failed to update document", error: err.message });
   }
 });
+
+router.get("/userDocs/:_id",async (req,res)=>{
+    const _id=req.params._id;
+    console.log(_id);
+    const documents=await DocModel.find({author:_id});
+    return res.json(documents);
+})
 
 export { router as docRouter };

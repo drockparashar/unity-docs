@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/auth.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -55,6 +55,9 @@ const Signup = () => {
         <button className="button-confirm" onClick={submit}>
           Let`s go →
         </button>
+        <span>
+          Already registered?<NavLink to="/login">Login</NavLink>{" "}
+        </span>
       </form>
     </div>
   );

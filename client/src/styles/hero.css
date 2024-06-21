@@ -1,0 +1,126 @@
+body{
+    margin: 0;
+    padding: 0;
+    /* background-color: black; */
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    /* background-color: black; */
+  }
+  
+  .hero-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  @media (min-width: 1024px) {
+    .hero-content {
+      width: 50%;
+    }
+  }
+  
+  .hero-text {
+    max-width: 32rem;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #1f2937
+  }
+  
+  @media (min-width: 1024px) {
+    .hero-title {
+      font-size: 2.25rem;
+      line-height: 1.25;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .hero-title {
+      font-size: 3.75rem;
+      line-height: 1.25;
+    }
+  }
+  
+  .hero-description {
+    padding-top: 1.25rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    color: #6b7280;
+  }
+  
+  @media (min-width: 1024px) {
+    .hero-description {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .hero-description {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+  }
+  
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    /* space-y: 0.75rem; */
+  }
+  
+  @media (min-width: 640px) {
+    .hero-buttons {
+      flex-direction: row;
+      align-items: center;
+      /* space-x: 1rem; */
+    }
+  }
+  
+  .download-button {
+    padding: 0.5rem 2rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    text-align: center;
+    color: #ffffff;
+    background-color: #6366f1;
+    border-radius: 0.375rem;
+  }
+  
+  .github-button {
+    display: flex;
+    align-items: center;
+    color: #6b7280;
+  }
+  
+  .github-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+    
+  .hero-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+  }
+  
+  @media (min-width: 1024px) {
+    .hero-image-container {
+      width: 50%;
+    }
+  }
+  /*  */
+  .hero-image {
+    object-fit: cover;
+    width: 80%;
+    height: 80%;
+  }
+  

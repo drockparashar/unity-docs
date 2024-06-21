@@ -20,18 +20,18 @@ const httpServer = new createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000", // Allow connections from the client
+    origin: "*", // Allow connections from the client
     methods: ["GET", "POST","PUT"],
   },
 });
 
 io.on("connection", (socket) => {
-  console.log("Socket Server");
-  socket.on("update", async (msg) => {
+  console.log("Socket id:",socket.id);
+  socket.on("update", async ({_id,delta,content}) => {
     try {
-      const response = await handleDocumentUpdate(msg);
-      console.log(response.updatedDoc.content);
-      socket.emit("update", response.updatedDoc.content);
+      const response = await handleDocumentUpdate({_id,content});
+      console.log("Broadcast",delta);
+      socket.broadcast.to(_id).emit("updateContent", delta);
     } catch (err) {
       socket.emit("update error", err.message);
     }
@@ -42,6 +42,7 @@ io.on("connection", (socket) => {
       const response=await getDocumentContent(_id);
       console.log(response.doc.content);
       socket.emit("get",response.doc.content)
+      socket.join(_id);
     }catch(err){
       console.log(err);
     }
@@ -55,6 +56,6 @@ mongoose
   .then(() => {
     console.log("Connected to database");
   })
-  .catch(() => console.log("Could not connect"));
+  .catch((err) => console.log("Could not connect",err));
 
 httpServer.listen(3001, () => console.log("Server started"));

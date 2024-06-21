@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "../styles/auth.css";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate=useNavigate();
+  const timeoutRef=useRef(null);
 
   const submit = async (e) => {
     e.preventDefault();
     try {
-      axios.post("http://localhost:3001/auth/login", {
+      const response=await axios.post("http://localhost:3001/auth/login", {
         username,
         password,
       });
-      alert("Login Successful");
+      console.log(response.data.userID);
+      window.localStorage.setItem('user', response.data.userID)
+      // alert("Login Successful");
+      toast.success("Login Successful");
+      timeoutRef.current = setTimeout(() => {
+        navigate(`/user`);
+      }, 1500);
     } catch (err) {
       console.log(err);
     }
@@ -45,11 +55,12 @@ const Login = () => {
         <button className="button-confirm" onClick={submit}>
           Let`s go →
         </button>
-
         <span>
           Not Registered?<NavLink to="/signup">SignUp</NavLink>{" "}
         </span>
+
       </form>
+      <ToastContainer autoClose={1000}/>
     </div>
   );
 };
