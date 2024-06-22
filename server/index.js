@@ -1,12 +1,15 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
 import { userRouter } from "./src/routes/auth.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { docRouter } from "./src/routes/docs.js";
 import handleDocumentUpdate from "./src/controllers/handleDocumentUpdate.js";
 import getDocumentContent from "./src/controllers/getDocumentContent.js";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -49,10 +52,9 @@ io.on("connection", (socket) => {
   });
 });
 
+
 mongoose
-  .connect(
-    "mongodb+srv://pranshu007parashar:JFNRHF1qoRd6FRrn@cluster0.xkki0jn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connected to database");
   })
