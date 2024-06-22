@@ -12,7 +12,7 @@ const Signup = () => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      axios.post("http://localhost:3001/auth/register", {
+      axios.post("https://unity-docs-2.onrender.com/auth/register", {
         name,
         username,
         password,

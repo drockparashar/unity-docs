@@ -19,7 +19,7 @@ const Dashboard = () => {
     const fetchDocuments = async () => {
       try {
         setUserId(window.localStorage.getItem('user'));
-        const response = await axios.get(`http://localhost:3001/doc/userDocs/${userId}`,
+        const response = await axios.get(`https://unity-docs-2.onrender.com/doc/userDocs/${userId}`,
         );
         setDocuments(response.data);
         console.log(response.data)
@@ -34,7 +34,7 @@ const Dashboard = () => {
   const handleCreateDocument = async () => {
     try {
       if(newDocTitle==="") return;
-      const response = await axios.post("http://localhost:3001/doc/create", { title: newDocTitle, author:userId });
+      const response = await axios.post("https://unity-docs-2.onrender.com/doc/create", { title: newDocTitle, author:userId });
       setDocuments([...documents, response.data]);
       setNewDocTitle(""); // Clear the input
       toast.success("Document created successfully!!");
@@ -69,7 +69,7 @@ const Dashboard = () => {
             {doc.title}
           </Link>
           <button className="share-button" onClick={()=>{
-            navigator.clipboard.writeText(`http://localhost:3000/editor/${doc._id}`);
+            navigator.clipboard.writeText(`https://unity-docs-two.vercel.app/editor/${doc._id}`);
             alert("Link Copied to clipboard");
           }} >Share</button>
           </div>
