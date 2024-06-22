@@ -69,7 +69,7 @@ const Dashboard = () => {
             {doc.title}
           </Link>
           <button className="share-button" onClick={()=>{
-            navigator.clipboard.writeText(`https://unity-docs-two.vercel.app/editor/${doc._id}`);
+            navigator.clipboard.writeText(`https://unity-docs-lake.vercel.app/editor/${doc._id}`);
             alert("Link Copied to clipboard");
           }} >Share</button>
           </div>
