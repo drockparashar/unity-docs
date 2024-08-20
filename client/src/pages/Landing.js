@@ -11,10 +11,10 @@ const Landing = () => {
     <div className="hero-content">
           <div className="hero-text">
             <h1 className="hero-title">
-              The Ultimate Habit Tracker & To-Do List App
+              Welcome to Unity Docs: Where Ideas Come to Life Together
             </h1>
             <p className="hero-description">
-              Take control of your daily routines and achieve your goals effortlessly with our all-in-one habit tracker and to-do list app. Seamlessly integrate your tasks and habits, stay organized with smart reminders, and visualize your progress with insightful analytics.
+              Unity Docs is your go-to platform for seamless, real-time text editing. Whether you're working on a team project, drafting a proposal, or simply brainstorming with others, Unity Docs empowers you to create and refine content together, effortlessly. With intuitive features, robust editing tools, and the ability to track changes and contributions, we make teamwork more productive and enjoyable. Join us and experience the future of collaborative writing.
             </p>
 
             <div className="hero-buttons">
